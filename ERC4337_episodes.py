@@ -25,12 +25,9 @@ class Bundler:
         return M
 
     def calculate_profit(self):
-        if self.bundle == 0:
-            return 0
-        else:
-            total_transaction_value = sum(self.bundle)
-            transaction_cost = self.omega * len(self.bundle)
-            return total_transaction_value - transaction_cost - 10
+        total_transaction_value = sum(self.bundle)
+        transaction_cost = self.omega * len(self.bundle)
+        return total_transaction_value - transaction_cost - 10
     
     def __str__(self):
         # Return a string representation of the bundler

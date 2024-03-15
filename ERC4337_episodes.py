@@ -9,8 +9,7 @@ import random
 
 class User:
     def __init__(self, value):
-        self.value = value  # Value of the user
-        self.count =0 
+        self.value = value  # Value of the user 
 
 class Bundler:
     def __init__(self, name, omega):
@@ -25,9 +24,12 @@ class Bundler:
         return M
 
     def calculate_profit(self):
-        total_transaction_value = sum(self.bundle)
-        transaction_cost = self.omega * len(self.bundle)
-        return total_transaction_value - transaction_cost - 10
+        if len(self.bundle) == 0:
+            return 0
+        else:
+            total_transaction_value = sum(self.bundle)
+            transaction_cost = self.omega * len(self.bundle)
+            return total_transaction_value - transaction_cost - 10
     
     def __str__(self):
         # Return a string representation of the bundler
@@ -36,11 +38,11 @@ class Bundler:
 # Function to generate users
 def generate_users(params, step, sL, s):
     new_transactions = []  # Initialize an empty list to store new transactions
-    num_transactions = np.random.randint(50, 60)  # Generate random number of transactions between 30 to 49 (to ensure variety)
+    num_transactions = np.random.randint(40, 50)  # Generate random number of transactions between 30 to 49 (to ensure variety)
     for bundler in s['bundlers']:
         bundler.bundle = []  # Clear the bundler's bundle
     for _ in range(num_transactions):
-        new_user_value = np.random.uniform(7, 9)  # Random Value fee
+        new_user_value = np.random.uniform(3, 12)  # Random Value (User's bid)
         new_user = User(new_user_value)
         new_transactions.append(new_user)  # Add the new transaction to the list
     return {'new_transactions': new_transactions}
@@ -78,11 +80,10 @@ def update_state(params, step, sL, s, _input):
                 else:
                     bundler.posted_price_history.append(bundler.posted_price_history[-1] * 0.995)  # Decrease posted price by 0.5% for positive profit
         else:  # If bundle size is not full
-            if profit < 0:  # If profit is negative
+            if profit <= 0:  # If profit is negative
                 bundler.posted_price_history.append(bundler.posted_price_history[-1] * 0.995)  # Decrease posted price by 0.5%
             else:
                 bundler.posted_price_history.append(bundler.posted_price_history[-1] * 1.005)  # Increase posted price by 0.5%
-
                 
     return ('bundlers', bundlers)
 
@@ -99,6 +100,7 @@ initial_prices = [omega + 1 for omega in omegas]
 
 # Update posted_price_history for each bundler
 for bundler, price in zip(bundlers, initial_prices):
+    print(bundler.omega)
     bundler.posted_price_history.append(price)
 
 # Create initial state
@@ -111,7 +113,7 @@ initial_state = {
 
 # Simulation parameters
 simulation_parameters = {
-    'T': range(200),  # Time steps
+    'T': range(500),  # Time steps
     'N': 1,  # Number of Monte Carlo runs
     'M': {},  # Parameters
 }
@@ -173,7 +175,7 @@ colors = ['blue', 'green', 'red']
 bundle_sizes = sorted(set(size for bundler_counts in bundle_counts_by_bundler.values() for size in bundler_counts.keys()))
 
 # Plot the grouped bar chart for each bundle size
-bar_width = 0.2  # Width of the bars
+bar_width = 0.1  # Width of the bars
 bar_positions = np.arange(len(bundle_sizes))  # X positions for the bars
 
 for i, bundler_name in enumerate(bundler_names):

@@ -208,46 +208,6 @@ bundle_sizes = sorted(set(size for bundler_counts in bundle_counts_by_bundler.va
 # Plot the grouped bar chart for each bundle size
 bar_width = 0.1 # Width of the bars
 bar_positions = np.arange(len(bundle_sizes))  # X positions for the bars
-"""
-for i, bundler_name in enumerate(bundler_names):
-    bundle_counts_data = [bundle_counts_by_bundler[bundler_name][size] for size in bundle_sizes]
-    #print(bundle_counts_data)
-    plt.bar(bar_positions + i * bar_width, bundle_counts_data, bar_width, color=colors[i], alpha=0.5, label=f'Bundler {bundler_name}')
-
-# Set labels and title for the plot
-plt.xlabel('Bundle Size')
-plt.ylabel('Frequency')
-plt.title('Frequency of Bundle Sizes for Each Bundler')
-plt.xticks(bar_positions + bar_width * (len(bundler_names) - 1) / 2, bundle_sizes)
-plt.legend(title='Bundler', bbox_to_anchor=(1.05, 1), loc='upper left')
-
-# Show the plot
-plt.tight_layout()
-plt.show()
-
-# Plot profit for each bundler
-for bundler_name in bundler_names:
-    bundler_profit_data = [result['bundler_profits'][bundler_name]['profit'] for result in raw_result]
-    plt.plot(bundler_profit_data, label=f'Profit - Bundler {bundler_name}')
-
-plt.title('Profit Over Time')
-plt.xlabel('Time Step')
-plt.ylabel('Profit')
-plt.legend()
-plt.show()
-
-# Plot posted price
-for i, bundler_name in enumerate(bundler_names):
-    plt.plot(df['timestep'], df['posted_prices'].apply(lambda x: x[i]), label=f'Bundler {bundler_name}')
-
-plt.xlabel('Time Step')
-plt.ylabel('Posted Price')
-plt.title('Posted Prices Over Time for Each Bundler')
-plt.legend()
-plt.grid(True) 
-plt.show()
-
-"""
 # Set up the figure and axes
 fig, axs = plt.subplots(2, 1, figsize=(8, 10), constrained_layout=True)
 

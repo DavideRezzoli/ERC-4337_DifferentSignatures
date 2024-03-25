@@ -87,12 +87,9 @@ def user_choose_bundler(params, step, sL, s, _input):
 
 def update_state(params, step, sL, s, _input):
     bundlers = s['bundlers']
-    
     for bundler in bundlers:
-        profit = bundler.calculate_profit()
-        previous_profit = s['bundler_profits'][bundler.name]['profit']
-        s['bundler_profits'][bundler.name]['profit'] += profit
-        
+        profit = bundler.calculate_profit() # Calcuating profit
+        s['bundler_profits'][bundler.name]['profit'] += profit # Adding profit to the total profit
         new_price = bundler.posted_price_history[-1]  # Default to last price to start
         
         if len(bundler.bundle) == bundler.bundleSize:  # If bundler's bundle is full
